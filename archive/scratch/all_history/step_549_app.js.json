@@ -1,0 +1,8 @@
+{
+  "Description": "\"Revert app.js: remove document query for bg-parallax-layer elements and delete the 2D background parallax translation calculations inside the Starfield animation loop.\"",
+  "Instruction": "\"Remove parallax layers query and updates in app.js\"",
+  "ReplacementChunks": "[{\"AllowMultiple\":false,\"EndLine\":23,\"ReplacementContent\":\"\",\"StartLine\":21,\"TargetContent\":\"      // 预先查询视差背景图层元素\\n      this.parallaxLayers = document.querySelectorAll('.bg-parallax-layer');\\n\"},{\"AllowMultiple\":false,\"EndLine\":209,\"ReplacementContent\":\"\",\"StartLine\":193,\"TargetContent\":\"      // 更新 2D 背景多图层视差位移\\n      if (this.parallaxLayers && this.parallaxLayers.length > 0) {\\n        this.parallaxLayers.forEach(layer => {\\n          const depth = parseFloat(layer.getAttribute('data-depth')) || 0;\\n          const multiplier = 55; // 调节视差灵敏度与偏移幅度\\n          const moveX = -this.mouseX * depth * multiplier;\\n          const moveY = -this.mouseY * depth * multiplier;\\n          \\n          const isWrapper = layer.classList.contains('clock-wrapper') || layer.classList.contains('scales-wrapper');\\n          if (isWrapper) {\\n            layer.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;\\n          } else {\\n            layer.style.transform = `translate(${moveX}px, ${moveY}px)`;\\n          }\\n        });\\n      }\\n\"}]",
+  "TargetFile": "\"d:\\\\gemini-lo-taro\\\\app.js\"",
+  "toolAction": "\"Editing app.js to remove parallax queries and update loop\"",
+  "toolSummary": "\"Edit app.js\""
+}

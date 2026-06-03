@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Add optional chaining (?.) to menu-item-deck queries in resetQuizState to prevent null reference errors on desktop layout since the left sidebar menu has been removed.\"",
+  "EndLine": "350",
+  "Instruction": "\"Use optional chaining for menu-item-deck selection.\"",
+  "ReplacementContent": "\"    // 隐藏/置灰导航菜单里的 DECK 栏目\\n    document.getElementById('menu-item-deck')?.classList.add('disabled');\\n    document.getElementById('mobile-menu-item-deck')?.classList.add('disabled');\"",
+  "StartLine": "345",
+  "TargetContent": "\"    // 隐藏/置灰导航菜单里的 DECK 栏目\\n    document.getElementById('menu-item-deck').classList.add('disabled');\\n    document.getElementById('mobile-menu-item-deck').classList.add('disabled');\"",
+  "TargetFile": "\"d:\\\\gemini-lo-taro\\\\app.js\"",
+  "toolAction": "\"Making resetQuizState navigation menu selections safe\"",
+  "toolSummary": "\"Modify app.js\""
+}

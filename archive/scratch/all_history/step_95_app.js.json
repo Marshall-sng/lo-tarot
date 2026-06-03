@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Add optional chaining (?.) to menu-item-deck queries in showCardReveal to prevent null reference errors on desktop layout.\"",
+  "EndLine": "612",
+  "Instruction": "\"Use optional chaining for menu-item-deck selection in showCardReveal.\"",
+  "ReplacementContent": "\"        // 解锁 DECK 菜单项\\n        document.getElementById('menu-item-deck')?.classList.remove('disabled');\\n        document.getElementById('mobile-menu-item-deck')?.classList.remove('disabled');\"",
+  "StartLine": "605",
+  "TargetContent": "\"        // 解锁 DECK 菜单项\\n        document.getElementById('menu-item-deck').classList.remove('disabled');\\n        document.getElementById('mobile-menu-item-deck').classList.remove('disabled');\"",
+  "TargetFile": "\"d:\\\\gemini-lo-taro\\\\app.js\"",
+  "toolAction": "\"Making showCardReveal navigation menu selections safe\"",
+  "toolSummary": "\"Modify app.js\""
+}

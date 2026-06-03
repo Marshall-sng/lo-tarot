@@ -1,0 +1,8 @@
+{
+  "Description": "\"Using display:none on the SVG defs container prevents Chrome from parsing linearGradient/filter definitions, making all url(#gold-grad) references resolve to nothing (invisible elements). Using zero-size absolute positioning keeps them parseable but visually hidden.\"",
+  "Instruction": "\"Fix the hidden SVG defs container: replace display:none with zero-size absolute positioning so the gradient and filter definitions are still parsed by the browser rendering engine\"",
+  "ReplacementChunks": "[{\"AllowMultiple\":false,\"EndLine\":22,\"ReplacementContent\":\"  <svg style=\\\"position: absolute; width: 0; height: 0; overflow: hidden;\\\">\",\"StartLine\":22,\"TargetContent\":\"  <svg style=\\\"display: none;\\\">\"}]",
+  "TargetFile": "\"d:\\\\gemini-lo-taro\\\\index.html\"",
+  "toolAction": "\"Fixing critical SVG rendering bug\"",
+  "toolSummary": "\"Fix SVG defs visibility\""
+}

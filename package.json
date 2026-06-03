@@ -1,0 +1,17 @@
+{
+  "name": "lo-soul-tarot",
+  "version": "1.0.1",
+  "description": "Lo娘灵魂塔罗 Web App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "tarot",
+    "lolita",
+    "bayes"
+  ],
+  "author": "Antigravity",
+  "license": "ISC",
+  "dependencies": {}
+}

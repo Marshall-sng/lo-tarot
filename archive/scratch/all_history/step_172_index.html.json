@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Update index.html background layer to wrap the clocks and scales in separate wrapper divs (.clock-wrapper, .scales-wrapper) to decouple rotate/swing animations from mouse parallax translations.\"",
+  "EndLine": "34",
+  "Instruction": "\"Wrap clocks and scales in parallax wrapper divs.\"",
+  "ReplacementContent": "\"  <!-- 独立的多图层悬浮视差与动态元素层 -->\\n  <div class=\\\"parallax-bg-layer\\\">\\n    <div class=\\\"bg-base-image bg-parallax-layer\\\" data-depth=\\\"0.08\\\"></div>\\n    \\n    <div class=\\\"clock-wrapper clock-tl bg-parallax-layer\\\" data-depth=\\\"0.2\\\">\\n      <img src=\\\"cutouts/clock_tl.png\\\" class=\\\"magic-clock spin-cw\\\" alt=\\\"clock-tl\\\">\\n    </div>\\n    <div class=\\\"clock-wrapper clock-tr bg-parallax-layer\\\" data-depth=\\\"0.2\\\">\\n      <img src=\\\"cutouts/clock_tr.png\\\" class=\\\"magic-clock spin-ccw\\\" alt=\\\"clock-tr\\\">\\n    </div>\\n    <div class=\\\"clock-wrapper clock-bl bg-parallax-layer\\\" data-depth=\\\"0.2\\\">\\n      <img src=\\\"cutouts/clock_bl.png\\\" class=\\\"magic-clock spin-ccw\\\" alt=\\\"clock-bl\\\">\\n    </div>\\n    <div class=\\\"clock-wrapper clock-br bg-parallax-layer\\\" data-depth=\\\"0.2\\\">\\n      <img src=\\\"cutouts/clock_br.png\\\" class=\\\"magic-clock spin-cw\\\" alt=\\\"clock-br\\\">\\n    </div>\\n    \\n    <div class=\\\"scales-wrapper bg-parallax-layer\\\" data-depth=\\\"0.45\\\">\\n      <img src=\\\"cutouts/scales.png\\\" class=\\\"magic-scales scales-swing\\\" alt=\\\"scales\\\">\\n    </div>\\n  </div>\"",
+  "StartLine": "25",
+  "TargetContent": "\"  <!-- 独立的多图层悬浮视差与动态元素层 -->\\n  <div class=\\\"parallax-bg-layer\\\">\\n    <div class=\\\"bg-base-image\\\"></div>\\n    <img src=\\\"cutouts/clock_tl.png\\\" class=\\\"magic-clock clock-tl\\\" alt=\\\"clock-tl\\\">\\n    <img src=\\\"cutouts/clock_tr.png\\\" class=\\\"magic-clock clock-tr\\\" alt=\\\"clock-tr\\\">\\n    <img src=\\\"cutouts/clock_bl.png\\\" class=\\\"magic-clock clock-bl\\\" alt=\\\"clock-bl\\\">\\n    <img src=\\\"cutouts/clock_br.png\\\" class=\\\"magic-clock clock-br\\\" alt=\\\"clock-br\\\">\\n    <img src=\\\"cutouts/scales.png\\\" class=\\\"magic-scales\\\" alt=\\\"scales\\\">\\n  </div>\"",
+  "TargetFile": "\"d:\\\\gemini-lo-taro\\\\index.html\"",
+  "toolAction": "\"Adding wrapped HTML elements for rotation and translation isolation\"",
+  "toolSummary": "\"Modify index.html\""
+}

@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Revert style.css: remove all CSS declarations for the parallax background layer, clean background images, clocks, scales, and their associated keyframe animations (spin-cw, spin-ccw, scales-beam-swing, pan-counter-swing).\"",
+  "EndLine": "280",
+  "Instruction": "\"Remove background parallax and clock/scales styles and animations from style.css\"",
+  "ReplacementContent": "\"\"",
+  "StartLine": "80",
+  "TargetContent": "\"/* ----------------------------------------------------\\n   2.5 独立的视差背景与动态元素层 (.parallax-bg-layer)\\n   ---------------------------------------------------- */\\n.parallax-bg-layer {\\n  position: fixed;\\n  top: -5%;\\n  left: -5%;\\n  width: 110%;\\n  height: 110%;\\n  z-index: 0; /* 背景图层：位于 body 背景之上、粒子画布之下 */\\n  will-change: transform;\\n  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);\\n  pointer-events: none;\\n  overflow: hidden;\\n}\\n\\n/* 宽高比自适应容器，确保 clean 背景底图与 4角时钟、天秤 cutouts 保持等比例视口裁剪，实现像素级重合 */\\n.bg-aspect-container {\\n  position: absolute;\\n  top: 50%;\\n  left: 50%;\\n  transform: translate(-50%, -50%);\\n  width: 100%;\\n  height: 100%; /* 默认降级方案：撑满父级，防止因浏览器不支持媒体查询导致尺寸坍塌为 0 */\\n  will-change: transform;\\n}\\n\\n/* 移动端 (941/1672 = 0.5628) cover 填充算法 (使用 1.1 倍视口尺寸，以覆盖父级 .parallax-bg-layer 的 110% 视差安全边距) */\\n@media screen and (max-width: 819px) and (min-aspect-ratio: 941/1672) {\\n  .bg-aspect-container {\\n    width: 110vw;\\n    height: 195.45vw; /* 110vw * (1672/941) */\\n  }\\n}\\n@media screen and (max-width: 819px) and (max-aspect-ratio: 941/1672) {\\n  .bg-aspect-container {\\n    height: 110vh;\\n    width: 61.91vh; /* 110vh * (941/1672) */\\n  }\\n}\\n\\n/* 宽屏桌面端 (1672/941 = 1.7768) cover 填充算法 (使用 1.1 倍视口尺寸，以覆盖父级 .parallax-bg-layer 的 110% 视差安全边距) */\\n@media screen and (min-width: 820px) and (min-aspect-ratio: 1672/941) {\\n  .bg-aspect-container {\\n    width: 110vw;\\n    height: 61.91vw; /* 110vw * (941/1672) */\\n  }\\n}\\n@media screen and (min-width: 820px) and (max-aspect-ratio: 1672/941) {\\n  .bg-aspect-container {\\n    height: 110vh;\\n    width: 195.45vh; /* 110vh * (1672/941) */\\n  }\\n}\\n\\n.bg-base-image {\\n  position: absolute;\\n  top: 0;\\n  left: 0;\\n  width: 100%;\\n  height: 100%;\\n  bac\n<truncated 3443 bytes>",
+  "TargetFile": "\"d:\\\\gemini-lo-taro\\\\style.css\"",
+  "toolAction": "\"Editing style.css to remove background styling and keyframe animations\"",
+  "toolSummary": "\"Edit style.css\""
+}

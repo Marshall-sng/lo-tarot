@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": "false",
+  "Description": "\"Merge the duplicate .clock-hand-hr and .clock-hand-min declarations so transform-origin is not overridden by the later animation-only block\"",
+  "EndLine": "210",
+  "Instruction": "\"Merge duplicate clock-hand CSS rules into single declarations that include both transform-origin and animation\"",
+  "ReplacementContent": "\"/* 时钟旋转轴心与硬件加速 */\\n.clock-outer {\\n  transform-origin: 160px 160px;\\n  will-change: transform;\\n}\\n.clock-inner {\\n  transform-origin: 160px 160px;\\n  will-change: transform;\\n}\\n\\n/* 时钟差速旋转与指针旋转 */\\n.spin-outer-cw {\\n  animation: spin-cw 90s infinite linear;\\n}\\n.spin-inner-ccw {\\n  animation: spin-ccw 120s infinite linear;\\n}\\n.clock-hand-hr {\\n  transform-origin: 160px 160px;\\n  will-change: transform;\\n  animation: spin-cw 40s infinite linear;\\n}\\n.clock-hand-min {\\n  transform-origin: 160px 160px;\\n  will-change: transform;\\n  animation: spin-cw 12s infinite linear;\\n}\"",
+  "StartLine": "180",
+  "TargetContent": "\"/* 时钟旋转轴心与硬件加速 */\\n.clock-outer {\\n  transform-origin: 160px 160px;\\n  will-change: transform;\\n}\\n.clock-inner {\\n  transform-origin: 160px 160px;\\n  will-change: transform;\\n}\\n.clock-hand-hr {\\n  transform-origin: 160px 160px;\\n  will-change: transform;\\n}\\n.clock-hand-min {\\n  transform-origin: 160px 160px;\\n  will-change: transform;\\n}\\n\\n/* 时钟差速旋转与指针旋转 */\\n.spin-outer-cw {\\n  animation: spin-cw 90s infinite linear;\\n}\\n.spin-inner-ccw {\\n  animation: spin-ccw 120s infinite linear;\\n}\\n.clock-hand-hr {\\n  animation: spin-cw 40s infinite linear;\\n}\\n.clock-hand-min {\\n  animation: spin-cw 12s infinite linear;\\n}\"",
+  "TargetFile": "\"d:\\\\gemini-lo-taro\\\\style.css\"",
+  "toolAction": "\"Merging duplicate CSS rules\"",
+  "toolSummary": "\"Fix duplicate CSS declarations\""
+}

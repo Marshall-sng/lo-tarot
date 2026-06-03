@@ -1,0 +1,9 @@
+# Node modules
+node_modules/
+
+# Cache data / report storage
+cache_data/
+
+# OS files
+.DS_Store
+Thumbs.db
