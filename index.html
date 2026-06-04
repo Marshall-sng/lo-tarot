@@ -146,7 +146,7 @@
     <section id="page-card-reveal" class="page-container section">
       <div class="reveal-header">
         <h3 class="section-subtitle">✦ 翻牌时刻 ✦</h3>
-        <p class="reveal-guide">按住牌面进行意念链接，翻阅你的灵魂密码</p>
+        <p class="reveal-guide">点击牌面进行意念链接，翻阅你的灵魂密码</p>
       </div>
 
       <!-- 3D 旋转卡片容器 -->
@@ -156,7 +156,14 @@
           <div class="card-face card-back">
             <div class="card-back-pattern">
               <div class="inner-oval">
-                <span class="gold-seal">⏳</span>
+                <div class="card-back-guide">
+                  <svg class="finger-tap-svg" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="6" r="3" class="tap-ring-1" />
+                    <circle cx="12" cy="6" r="6" class="tap-ring-2" />
+                    <path d="M12 6V11M12 6a1.5 1.5 0 0 0-3 0v5M9 9a1.5 1.5 0 0 0-3 0v4M15 8.5a1.5 1.5 0 0 1 3 0V13c0 3-2.5 5-5.5 5h-1c-2.5 0-4.5-2-4.5-4.5V11" />
+                  </svg>
+                  <span class="finger-tap-text">轻触翻牌</span>
+                </div>
               </div>
             </div>
           </div>
@@ -167,19 +174,6 @@
             <div class="card-lo-title">衣橱女王</div>
             <div class="card-en-title">The Empress</div>
           </div>
-        </div>
-      </div>
-
-      <!-- Tap and Hold 引导遮罩 (.tap-icon) -->
-      <div class="component tap-icon">
-        <div class="button tap-icon__container">
-          <div class="tap-icon__halos">
-            <div class="tap-icon__halo tap-icon__halo--1"></div>
-            <div class="tap-icon__halo tap-icon__halo--2"></div>
-            <div class="tap-icon__halo tap-icon__halo--3"></div>
-            <div class="tap-icon__halo tap-icon__halo--4"></div>
-          </div>
-          <div class="tap-icon__description">长按揭示命运</div>
         </div>
       </div>
 
@@ -279,6 +273,34 @@
       <div class="modal-actions" style="margin-top: 20px; width: 100%; display: flex; justify-content: center;">
         <button id="btn-download-card" class="primary-btn button__primary" style="padding: 10px 22px; font-size: 0.75rem; border-color: rgba(229, 198, 143, 0.4); letter-spacing: 2px;">下载高清原图</button>
       </div>
+    </div>
+  </div>
+
+  <!-- 历史测算记忆弹窗模态框 -->
+  <div id="history-prompt-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 400px; padding: 35px 25px;">
+      <div class="modal-symbol" style="font-size: 3rem;">🔮</div>
+      <div class="modal-lo-title" style="font-size: 1.2rem; margin-bottom: 8px;">发现专属灵魂牌阵</div>
+      <p style="font-size: 0.85rem; color: rgba(245, 230, 211, 0.6); margin-bottom: 25px; line-height: 1.6;">检测到您上次的灵魂牌阵测算结果，是否直接查看，或是重新开始测试？</p>
+      <div class="modal-actions" style="display: flex; gap: 15px; width: 100%;">
+        <button id="btn-history-view" class="primary-btn button__primary" style="flex: 1; padding: 12px 0; font-size: 0.75rem; letter-spacing: 2px;">查看上次结果</button>
+        <button id="btn-history-restart" class="secondary-btn button__secondary" style="flex: 1; padding: 12px 0; font-size: 0.75rem; letter-spacing: 2px; margin-top: 0;">重新测试</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 微信海报保存遮罩层 -->
+  <div id="poster-save-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button id="btn-close-poster-modal" class="close-btn">&times;</button>
+      <div class="modal-lo-title" style="font-size: 1rem; margin-bottom: 6px; letter-spacing: 2px; color: var(--accent-gold);">✦ 保存命运海报 ✦</div>
+      <p style="font-size: 0.75rem; color: rgba(245, 230, 211, 0.5); margin-bottom: 15px;">长按下方图片即可保存至相册</p>
+      
+      <div class="poster-save-img-wrapper">
+        <img id="poster-save-img" src="" alt="专属灵魂海报">
+      </div>
+      
+      <button id="btn-close-poster-modal-cta" class="secondary-btn button__secondary" style="padding: 10px 24px; font-size: 0.75rem; letter-spacing: 2px; width: auto; margin: 0 auto;">返回报告</button>
     </div>
   </div>
 

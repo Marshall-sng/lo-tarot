@@ -304,10 +304,69 @@
           alert("未找到该专属测算报告记录，已为您返回主页。");
           navigateTo('welcome');
         });
+    }
+    
+    // 如果 URL 无参数，检测本地 LocalStorage 是否有历史测算报告 ID
+    const cachedReportId = localStorage.getItem('lo_tarot_last_report');
+    if (cachedReportId) {
+      showHistoryPrompt(cachedReportId);
       return;
     }
     
     navigateTo('welcome');
+  }
+
+  // 展示历史缓存提示弹窗
+  function showHistoryPrompt(cachedReportId) {
+    const modal = document.getElementById('history-prompt-modal');
+    if (!modal) {
+      navigateTo('welcome');
+      return;
+    }
+    modal.classList.add('active');
+
+    const viewBtn = document.getElementById('btn-history-view');
+    const restartBtn = document.getElementById('btn-history-restart');
+
+    viewBtn.onclick = () => {
+      modal.classList.remove('active');
+      const progressText = document.querySelector('.progress-text');
+      if (progressText) progressText.textContent = "正在从服务器加载命运剧本...";
+      
+      fetch(`/api/get-report?id=${cachedReportId}`)
+        .then(res => {
+          if (!res.ok) throw new Error("Report not found");
+          return res.json();
+        })
+        .then(data => {
+          if (data && data.drawnCards) {
+            state.userAge = data.age;
+            state.answers = data.answers;
+            state.currentReportId = data.id;
+            state.drawnCards = data.drawnCards.map(id => window.TarotData.CARDS[id]);
+            
+            // 自动解锁这三张牌
+            data.drawnCards.forEach(id => unlockCard(id));
+            
+            // 直接跳转到报告页展示
+            navigateTo('final-report');
+          } else {
+            localStorage.removeItem('lo_tarot_last_report');
+            navigateTo('welcome');
+          }
+        })
+        .catch(err => {
+          console.error("加载缓存云端数据报告失败:", err);
+          localStorage.removeItem('lo_tarot_last_report');
+          navigateTo('welcome');
+        });
+    };
+
+    restartBtn.onclick = () => {
+      modal.classList.remove('active');
+      localStorage.removeItem('lo_tarot_last_report');
+      navigateTo('welcome');
+    };
   }
 
   // ----------------------------------------------------
@@ -450,6 +509,7 @@
     state.drawnCards = [];
     state.currentReportId = null;
     state.userAge = null;
+    localStorage.removeItem('lo_tarot_last_report');
 
     // 清空年龄输入框并移去错误警告样式
     const ageInput = document.getElementById('user-age-input');
@@ -663,12 +723,8 @@
   }
 
   // ----------------------------------------------------
-  // G. "Tap and Hold" 长按翻牌仪式实现
+  // G. 点击翻牌仪式实现
   // ----------------------------------------------------
-  let holdTimer = null;
-  let holdProgress = 0;
-  let isHolding = false;
-
   function showCardReveal(cardData) {
     navigateTo('card-reveal');
 
@@ -684,19 +740,10 @@
     const cardInterpretation = document.querySelector('.reveal-interpretation');
     const actionBtn = document.getElementById('btn-reveal-action');
 
-    // 初始化重置卡片状态与指示浮层
-    cardInner.classList.remove('flipped', 'holding');
+    // 初始化重置卡片状态
+    cardInner.classList.remove('flipped');
     cardInner.style.transform = '';
     
-    const tapIcon = document.querySelector('.tap-icon__container');
-    tapIcon.classList.remove('hidden', 'active-glow');
-    
-    // 初始化 halos 重置
-    document.querySelectorAll('.tap-icon__halo').forEach(halo => {
-      halo.style.transform = '';
-      halo.style.borderColor = '';
-    });
-
     const interpretationBox = document.querySelector('.reveal-interpretation-box');
     interpretationBox.style.display = 'none';
     cardInterpretation.classList.remove('visible');
@@ -732,71 +779,15 @@
       };
     }
 
-    // 绑定指针按下/释放事件 (支持多端触摸与鼠标)
-    newWrapper.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
-      startHoldingCard(cardInner, cardData);
-    });
-
-    const stopHolding = () => {
-      stopHoldingCard(cardInner);
-    };
-
-    newWrapper.addEventListener('pointerup', stopHolding);
-    newWrapper.addEventListener('pointerleave', stopHolding);
-    newWrapper.addEventListener('pointercancel', stopHolding);
-  }
-
-  function startHoldingCard(cardInner, cardData) {
-    if (isHolding || cardInner.classList.contains('flipped')) return;
-    isHolding = true;
-    holdProgress = 0;
-
-    // 添加卡片微微颤动类，提升按压应答感
-    cardInner.classList.add('holding');
-    document.querySelector('.tap-icon__container').classList.add('active-glow');
-
-    const tick = () => {
-      if (!isHolding) return;
-      holdProgress += 2.2; // 约 0.8s 蓄能时间
-
-      // 实时放大光圈晕并淡出
-      document.querySelectorAll('.tap-icon__halo').forEach((halo, idx) => {
-        const scale = 0.3 + (holdProgress / 100) * 1.6 * (1 + idx * 0.25);
-        halo.style.transform = `scale(${scale})`;
-        halo.style.borderColor = `rgba(229, 198, 143, ${1.0 - holdProgress / 100})`;
-      });
-
-      if (holdProgress >= 100) {
-        triggerRevealSuccess(cardInner, cardData);
-      } else {
-        holdTimer = requestAnimationFrame(tick);
-      }
-    };
-    holdTimer = requestAnimationFrame(tick);
-  }
-
-  function stopHoldingCard(cardInner) {
-    if (!isHolding) return;
-    isHolding = false;
-    cancelAnimationFrame(holdTimer);
-    
-    cardInner.classList.remove('holding');
-    document.querySelector('.tap-icon__container').classList.remove('active-glow');
-
-    // 重置光晕
-    document.querySelectorAll('.tap-icon__halo').forEach(halo => {
-      halo.style.transform = '';
-      halo.style.borderColor = '';
+    // 绑定点击翻转事件
+    newWrapper.addEventListener('click', (e) => {
+      if (cardInner.classList.contains('flipped')) return;
+      triggerRevealSuccess(cardInner, cardData);
     });
   }
 
   function triggerRevealSuccess(cardInner, cardData) {
-    isHolding = false;
-    cardInner.classList.remove('holding');
     cardInner.classList.add('flipped');
-    
-    document.querySelector('.tap-icon__container').classList.add('hidden');
 
     // 触发 Three.js 三维发散粒子波喷发，仪式感推向高潮
     if (window.tarotStarfield) {
@@ -1058,6 +1049,9 @@
         if (data && data.success && data.reportId) {
           state.currentReportId = data.reportId;
           console.log("测算剧本已成功保存至服务器，测算 ID 为:", data.reportId);
+          
+          // 将答题报告的 ID 缓存到本地，供下一次访问时检测
+          localStorage.setItem('lo_tarot_last_report', data.reportId);
           
           // 在地址栏静默追加 ?report=xxx 属性，以便用户直接复制浏览器地址栏链接进行分享
           if (window.history && window.history.replaceState) {
@@ -1471,7 +1465,7 @@
       });
     });
 
-    // 3. 下载海报按钮
+    // 3. 下载/保存海报按钮
     const btnDownload = document.getElementById('btn-download-poster');
     if (btnDownload) {
       btnDownload.addEventListener('click', () => {
@@ -1479,19 +1473,56 @@
         if (canvas) {
           try {
             const url = canvas.toDataURL('image/png');
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Lo娘灵魂剧本-${state.drawnCards.map(c => c.name_zh).join('-')}.png`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            
+            // 判断微信环境
+            const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+            if (isWeChat) {
+              const saveImg = document.getElementById('poster-save-img');
+              if (saveImg) {
+                saveImg.src = url;
+              }
+              const saveModal = document.getElementById('poster-save-modal');
+              if (saveModal) {
+                saveModal.classList.add('active');
+              }
+            } else {
+              // 普通浏览器：使用 a 标签下载
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `Lo娘灵魂剧本-${state.drawnCards.map(c => c.name_zh).join('-')}.png`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+            }
           } catch (e) {
-            console.error("Poster download failed:", e);
+            console.error("Poster download/save failed:", e);
             alert("海报生成失败，请长按海报卡片或使用手机截图保存。");
           }
         }
       });
     }
+
+    // 微信海报弹窗关闭按钮绑定
+    const btnClosePoster = document.getElementById('btn-close-poster-modal');
+    if (btnClosePoster) {
+      btnClosePoster.addEventListener('click', () => {
+        document.getElementById('poster-save-modal').classList.remove('active');
+      });
+    }
+    const btnClosePosterCta = document.getElementById('btn-close-poster-modal-cta');
+    if (btnClosePosterCta) {
+      btnClosePosterCta.addEventListener('click', () => {
+        document.getElementById('poster-save-modal').classList.remove('active');
+      });
+    }
+
+    // 全局防右键菜单（右键/长按），但对海报图片白名单放行
+    document.addEventListener('contextmenu', (e) => {
+      if (e.target && (e.target.id === 'poster-save-img' || e.target.id === 'share-poster-img')) {
+        return; // 允许长按保存海报
+      }
+      e.preventDefault();
+    });
 
     // 4. 重测 / 百科 / 百科关闭
     document.querySelectorAll('.btn-go-home').forEach(btn => {

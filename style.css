@@ -29,6 +29,19 @@
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+input, textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
 }
 
 html, body {
@@ -56,8 +69,10 @@ a {
   transition: color 0.3s;
 }
 
-a:hover {
-  color: var(--text-white);
+@media (hover: hover) {
+  a:hover {
+    color: var(--text-white);
+  }
 }
 
 /* ----------------------------------------------------
@@ -107,11 +122,17 @@ a:hover {
   gap: 12px;
   cursor: pointer;
   opacity: 0.8;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s, transform 0.1s ease;
 }
 
-.header__left:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .header__left:hover {
+    opacity: 1;
+  }
+}
+
+.header__left:active {
+  transform: scale(0.96);
 }
 
 .header__logo {
@@ -142,12 +163,18 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s;
+  transition: transform 0.2s, opacity 0.2s;
   pointer-events: auto;
 }
 
-.header__menu:hover {
-  transform: scale(1.1);
+@media (hover: hover) {
+  .header__menu:hover {
+    transform: scale(1.1);
+  }
+}
+
+.header__menu:active {
+  transform: scale(0.92);
 }
 
 @media screen and (max-width: 820px) {
@@ -205,7 +232,7 @@ a:hover {
   color: var(--text-cream);
   opacity: 0.4;
   padding: 10px;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s, transform 0.1s ease;
 }
 
 .menu-mobile__item span {
@@ -214,9 +241,20 @@ a:hover {
   margin-right: 8px;
 }
 
-.menu-mobile__item:hover, .menu-mobile__item.active {
+.menu-mobile__item.active {
   opacity: 1;
   color: var(--text-white);
+}
+
+@media (hover: hover) {
+  .menu-mobile__item:hover {
+    opacity: 1;
+    color: var(--text-white);
+  }
+}
+
+.menu-mobile__item:active {
+  transform: scale(0.95);
 }
 
 .menu-mobile__item.disabled {
@@ -370,10 +408,12 @@ a:hover {
   text-transform: uppercase;
 }
 
-.button__primary:hover, .primary-btn:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-color: var(--text-white);
-  box-shadow: 0 0 20px rgba(var(--accent-gold-rgb), 0.25);
+@media (hover: hover) {
+  .button__primary:hover, .primary-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--text-white);
+    box-shadow: 0 0 20px rgba(var(--accent-gold-rgb), 0.25);
+  }
 }
 
 .button__primary:active, .primary-btn:active {
@@ -390,13 +430,19 @@ a:hover {
   border: 1px solid rgba(245, 230, 211, 0.15);
   padding: 12px 28px;
   cursor: pointer;
-  transition: border-color 0.3s, color 0.3s, background-color 0.3s;
+  transition: border-color 0.3s, color 0.3s, background-color 0.3s, transform 0.1s ease;
 }
 
-.button__secondary:hover, .secondary-btn:hover {
-  border-color: var(--text-cream);
-  color: var(--text-cream);
-  background-color: rgba(255, 255, 255, 0.03);
+@media (hover: hover) {
+  .button__secondary:hover, .secondary-btn:hover {
+    border-color: var(--text-cream);
+    color: var(--text-cream);
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+}
+
+.button__secondary:active, .secondary-btn:active {
+  transform: scale(0.96);
 }
 
 .pulse-glow {
@@ -417,11 +463,18 @@ a:hover {
 .btn-glowing-gold {
   border-color: var(--dynamic-theme-color);
   box-shadow: 0 0 10px rgba(var(--dynamic-theme-color-rgb), 0.2);
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.1s ease;
 }
 
-.btn-glowing-gold:hover {
-  border-color: var(--text-white);
-  box-shadow: 0 0 25px var(--dynamic-theme-color);
+@media (hover: hover) {
+  .btn-glowing-gold:hover {
+    border-color: var(--text-white);
+    box-shadow: 0 0 25px var(--dynamic-theme-color);
+  }
+}
+
+.btn-glowing-gold:active {
+  transform: scale(0.96);
 }
 
 /* ----------------------------------------------------
@@ -797,9 +850,62 @@ a:hover {
   box-shadow: inset 0 0 15px rgba(229, 198, 143, 0.1);
 }
 
-.gold-seal {
-  font-size: 2.2rem;
-  filter: drop-shadow(0 0 5px rgba(229, 198, 143, 0.3));
+.card-back-guide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+}
+
+.finger-tap-svg {
+  width: 50px;
+  height: 50px;
+  color: var(--accent-gold);
+  filter: drop-shadow(0 0 8px rgba(229, 198, 143, 0.6));
+  animation: fingerFloat 2s infinite ease-in-out;
+}
+
+.finger-tap-text {
+  font-family: var(--font-unbounded);
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: var(--text-cream);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+}
+
+.tap-ring-1 {
+  transform-origin: 12px 6px;
+  animation: tapRingScale 2s infinite ease-out;
+}
+
+.tap-ring-2 {
+  transform-origin: 12px 6px;
+  animation: tapRingScale 2s infinite ease-out;
+  animation-delay: 0.6s;
+}
+
+@keyframes fingerFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes tapRingScale {
+  0% {
+    transform: scale(0.3);
+    opacity: 1;
+    stroke: var(--accent-gold);
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+    stroke: rgba(255, 255, 255, 0.1);
+  }
 }
 
 /* Card Front */
@@ -847,76 +953,7 @@ a:hover {
   display: none;
 }
 
-/* Tap and Hold Component Overlay */
-.tap-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 25;
-  pointer-events: none;
-}
 
-.tap-icon__container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  opacity: 1;
-  transition: opacity 0.5s ease;
-}
-
-.tap-icon__container.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.tap-icon__halos {
-  position: relative;
-  width: 80px;
-  height: 80px;
-  margin-bottom: 25px;
-}
-
-.tap-icon__halo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 50%;
-  animation: haloRipple 5s infinite cubic-bezier(0.16, 1, 0.3, 1);
-  opacity: 0;
-}
-
-.tap-icon__halo--2 { animation-delay: 1.25s; }
-.tap-icon__halo--3 { animation-delay: 2.5s; }
-.tap-icon__halo--4 { animation-delay: 3.75s; }
-
-@keyframes haloRipple {
-  0% {
-    transform: scale(0.3);
-    opacity: 1;
-    border-color: rgba(var(--accent-gold-rgb), 0.8);
-  }
-  100% {
-    transform: scale(2.2);
-    opacity: 0;
-    border-color: rgba(255, 255, 255, 0.05);
-  }
-}
-
-.tap-icon__description {
-  font-family: var(--font-unbounded);
-  font-size: 0.65rem;
-  letter-spacing: 3px;
-  color: var(--text-white);
-  text-shadow: 0 0 10px #000;
-  text-transform: uppercase;
-}
 
 /* Interpretation text */
 .reveal-interpretation-box {
@@ -1015,10 +1052,12 @@ a:hover {
   display: none;
 }
 
-.destiny-card:hover {
-  border-color: var(--dynamic-theme-color);
-  transform: scale(1.05) translateZ(20px) rotateY(0deg);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), 0 0 15px var(--dynamic-theme-color);
+@media (hover: hover) {
+  .destiny-card:hover {
+    border-color: var(--dynamic-theme-color);
+    transform: scale(1.05) translateZ(20px) rotateY(0deg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), 0 0 15px var(--dynamic-theme-color);
+  }
 }
 
 .card-tag {
@@ -1362,11 +1401,17 @@ a:hover {
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.1s ease;
 }
 
-.encyclopedia-card-wrapper:hover {
-  transform: translateY(-5px);
+@media (hover: hover) {
+  .encyclopedia-card-wrapper:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.encyclopedia-card-wrapper:active {
+  transform: scale(0.96);
 }
 
 .enc-card-symbol {
@@ -1395,9 +1440,11 @@ a:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 }
 
-.encyclopedia-card-wrapper.unlocked:hover .enc-card-symbol {
-  border-color: var(--accent-gold);
-  box-shadow: 0 10px 25px rgba(var(--accent-gold-rgb), 0.25);
+@media (hover: hover) {
+  .encyclopedia-card-wrapper.unlocked:hover .enc-card-symbol {
+    border-color: var(--accent-gold);
+    box-shadow: 0 10px 25px rgba(var(--accent-gold-rgb), 0.25);
+  }
 }
 
 .enc-card-symbol img {
@@ -1523,11 +1570,17 @@ a:hover {
   cursor: pointer;
   outline: none;
   line-height: 1;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, transform 0.1s ease;
 }
 
-.close-btn:hover {
-  color: var(--text-white);
+@media (hover: hover) {
+  .close-btn:hover {
+    color: var(--text-white);
+  }
+}
+
+.close-btn:active {
+  transform: scale(0.9);
 }
 
 .modal-symbol {
@@ -1687,4 +1740,33 @@ a:hover {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* ----------------------------------------------------
+   16. 微信海报及保存弹窗专属样式
+   ---------------------------------------------------- */
+#share-poster-img, #poster-save-img {
+  -webkit-touch-callout: default !important;
+  -webkit-user-select: none !important;
+}
+
+#poster-save-modal .modal-content {
+  max-width: 420px;
+  padding: 30px 20px;
+  background: rgba(15, 9, 26, 0.95);
+  border-color: rgba(229, 198, 143, 0.6);
+}
+
+.poster-save-img-wrapper {
+  width: 100%;
+  border-radius: 4px;
+  border: 1.5px solid var(--accent-gold);
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.poster-save-img-wrapper img {
+  width: 100%;
+  display: block;
 }
